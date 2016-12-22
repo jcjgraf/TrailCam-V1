@@ -1,0 +1,11 @@
+	{
+	"sensorGPIO": 7,
+	"relayGPIO": 21,
+	"buttonGPIO": 23,
+	"ledGPIO": 18,
+	"batteryGPIO": 12,
+
+	"recordingTime": 5,
+	"path": "/home/pi/Documents/TrailCam/Videos/"
+
+}
