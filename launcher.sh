@@ -1,6 +1,9 @@
 #!/bin/bash
 # launcher.sh
-# navigate to the  home directory, then to this directory, then execute python script, then back home
+# mount the thumb drive and lauch the trailCam main script at startup
+
+mkdir /media/usb
+mount /dev/sda2 /media/usb
 
 cd /
 cd home/pi/Documents/TrailCam/TrailCam-V1/
