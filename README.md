@@ -16,10 +16,10 @@ There is also a switch to cut the power of the battery.
 ### Images/Video
 
 Here a coupple of Images of my TrailCam
-![Inside of the TrailCam without the battery](img/image1.jpg)
-![Inside of the TrailCam with the battery (but withoug the RPi and NoIR Camera)](img/image2.jpg)
-![The TrailCam from the outside](img/image3.jpg)
-![The controlls of the TrailCam](img/image4.jpg)
+![Inside of the TrailCam without the battery](img/img1.jpg)
+![Inside of the TrailCam with the battery (but withoug the RPi and NoIR Camera)](img/img2.jpg)
+![The TrailCam from the outside](img/img3.jpg)
+![The controlls of the TrailCam](img/img4.jpg)
 
 And here an example video (I had no luck to capture a decent wildlife video therefore here a video of some goats). It was completely dark when that video was captured.
 [Example Video](https://www.youtube.com/watch?v=FnG7y7HwxYM&feature=youtu.be)
@@ -37,7 +37,7 @@ And here an example video (I had no luck to capture a decent wildlife video ther
 - Toolbox as Enclosure
 - USB Thumb Drive (optional)
 - Small Prototype Board
-- Two Resistor
+- Some Resistor
 - Button, Led, Switch, Wires
 
 ### License
