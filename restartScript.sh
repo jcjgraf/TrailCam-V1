@@ -1,6 +1,6 @@
 #!/bin/bash
 #restartScript.sh
-# Stop and start the trailCam script again
+# Stop and restart the trailCam script
 
 read pid < /var/run/trailCamV2b.pid
 
