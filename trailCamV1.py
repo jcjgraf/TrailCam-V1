@@ -3,7 +3,7 @@
 # Raspberry Pi TrailCam Version 2
 #
 # Author: Jean-Claude Graf
-# Date  : 05/12/2016
+# Date  : 02/01/2017
 
 #-#-#-#-#---Import---#-#-#-#-#
 
@@ -60,9 +60,9 @@ relayGPIO = config['relayGPIO']
 GPIO.setup(relayGPIO, GPIO.OUT)
 GPIO.output(relayGPIO, GPIO.LOW)
 
-#-Shutdown Battery GPIO
-batteryGPIO = config['batteryGPIO']
-GPIO.setup(batteryGPIO, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+#TODO: #-Shutdown Battery GPIO
+# batteryGPIO = config['batteryGPIO']
+# GPIO.setup(batteryGPIO, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 #-Status LED GPIO
 ledGPIO = config['ledGPIO']
@@ -107,7 +107,7 @@ def statusBtnPressed(channel):
 
         print("Index is " + str(index))
 
-        if index == 5 or index == 10:
+        if index == 3 or index == 5 or index == 10:
 
             for _ in range(0,5):
                 time.sleep(0.1)
@@ -123,7 +123,7 @@ def statusBtnPressed(channel):
             GPIO.output(ledGPIO, GPIO.LOW)
 
     # Determinde the output for the chosen time
-    if index == 0 or index == 1 or index == 2 or index == 3 or index == 4:
+    if index == 0 or index == 1 or index == 2:
 
         print("Print status")
 
@@ -145,7 +145,7 @@ def statusBtnPressed(channel):
                 GPIO.output(ledGPIO, GPIO.LOW)
                 time.sleep(0.1)
 
-    elif index == 5:
+    elif index == 3:
 
         print("Change activ mode")
 
@@ -166,6 +166,12 @@ def statusBtnPressed(channel):
             print("isActive is set to True")
             print("Camera is active now")
 
+    elif index == 5:
+
+        print("Restart Script")
+        os.system('sh /home/pi/Documents/TrailCam/TrailCam-V1/runRestartScript.sh')
+
+
     elif index == 10:
 
         shutDown()
@@ -173,7 +179,7 @@ def statusBtnPressed(channel):
 GPIO.add_event_detect(buttonGPIO, GPIO.RISING,  callback = statusBtnPressed, bouncetime = 500)
 
 
-#-#-#-#-#---Shutdown the pi when the battery is low---#-#-#-#-#
+# TODO: #-#-#-#-#---Shutdown the pi when the battery is low---#-#-#-#-#
 
 # def shutDownBatteryLow(channel):
 
@@ -231,6 +237,7 @@ def shutDown():
         time.sleep(0.1)
 
     GPIO.cleanup()
+    os.system('sudo umount /media/usb')
     os.system('sudo shutdown -h now')
 
 
@@ -278,64 +285,66 @@ try:
 
     while True:
         time.sleep(0.1)
-    #     if isShuttingDown == False and isActive == True and not GPIO.input(buttonGPIO) == GPIO.HIGH:
+        if isShuttingDown == False and isActive == True and not GPIO.input(buttonGPIO) == GPIO.HIGH:
         
-    #         motionDetected = True if GPIO.input(sensorGPIO) == 1 else False
-    #         # print("Motion detected:" , motionDetected)
+            motionDetected = True if GPIO.input(sensorGPIO) == 1 else False
+            # print("Motion detected:" , motionDetected)
 
-    #         #-Start recording
-    #         if motionDetected and not camera.recording:
+            #-Start recording
+            if motionDetected and not camera.recording:
                 
-    #             redordingTimeLeft = defaultRecordingTime
+                redordingTimeLeft = defaultRecordingTime
 
-    #             print("Motion Detected!")
-    #             print("Start recording!")
+                print("Motion Detected!")
+                print("Start recording!")
                 
-    #             #-Enable the lamp
-    #             GPIO.output(relayGPIO, GPIO.HIGH)
+                #-Enable the lamp
+                GPIO.output(relayGPIO, GPIO.HIGH)
 
-    #             nameOfRecord = "Video" + str(largestRecordNumber) + ".h264"
-    #             camera.start_recording(pathToSave + nameOfRecord)
+                nameOfRecord = "Video" + str(largestRecordNumber) + ".h264"
+                camera.start_recording(pathToSave + nameOfRecord)
                 
                 
-    #         #-Extend recording time
-    #         elif motionDetected and camera.recording:
+            #-Extend recording time
+            elif motionDetected and camera.recording:
                 
-    #             print("Motion Detected!")
-    #             print("Continous recording!")
+                print("Motion Detected!")
+                print("Continous recording!")
                 
-    #             recordingTimeLeft = defaultRecordingTime
+                recordingTimeLeft = defaultRecordingTime
 
-    #         #-Should recording be stopped
-    #         elif camera.recording and not motionDetected:
+            #-Should recording be stopped
+            elif camera.recording and not motionDetected:
 
-    #             #-Stop recording
-    #            if recordingTimeLeft <= 0:
+                #-Stop recording
+               if recordingTimeLeft <= 0:
                    
-    #                stopRecording()
+                   stopRecording()
 
-    #                print("Ready to detect motion...")
+                   print("Ready to detect motion...")
 
-    #                time.sleep(1)
+                   time.sleep(1)
 
-    #             #-Continous recording
-    #            else:
+                #-Continous recording
+               else:
                    
-    #                 print("Recording time left " + str(recordingTimeLeft))
-    #                 recordingTimeLeft -= 1
+                    print("Recording time left " + str(recordingTimeLeft))
+                    recordingTimeLeft -= 1
 
-    #         #else:
+            #else:
 
-    #             #print("Waiting for motion")
+                #print("Waiting for motion")
 
-    #         #-Determine sleep time
-    #         if camera.recording:
+            #-Determine sleep time
+            # if camera.recording:
 
-    #             time.sleep(1)
+            #     time.sleep(1)
 
-    #         else:
+            # else:
 
-    #             time.sleep(0.5)
+            #     time.sleep(0.5)
+
+            time.sleep(0.5)
 
             # print("-----------")
             # print("Camera is recording:", camera.recording)
