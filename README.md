@@ -16,13 +16,13 @@ There is also a switch to cut the power of the battery.
 #### Images/Video
 
 Here a coupple of Images of my TrailCam
-![Inside of the TrailCam without the battery](jeanggi90.github.com/TrailCam-V1/imgages/image1.jpg)
-![Inside of the TrailCam with the battery (but withoug the RPi and NoIR Camera)](jeanggi90.github.com/TrailCam-V1/imgages/image2.jpg)
-![The TrailCam from the outside](jeanggi90.github.com/TrailCam-V1/imgages/image3.jpg)
-![The controlls of the TrailCam](jeanggi90.github.com/TrailCam-V1/imgages/image1.jpg)
+![Inside of the TrailCam without the battery](/img/image1.jpg)
+![Inside of the TrailCam with the battery (but withoug the RPi and NoIR Camera)](img/image2.jpg)
+![The TrailCam from the outside](img/image3.jpg)
+![The controlls of the TrailCam](img/image1.jpg)
 
-And here an example video (I had no luck to capture a decent wildlife video therefore here a video of some goats)
-[TrailCam Example Video](https://www.youtube.com/watch?v=FnG7y7HwxYM&feature=youtu.be)
+And here an example video (I had no luck to capture a decent wildlife video therefore here a video of some goats). It was completely dark when that video was captured.
+[Example Video](https://www.youtube.com/watch?v=FnG7y7HwxYM&feature=youtu.be)
 
 
 ---
