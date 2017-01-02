@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Raspberry Pi TrailCam Version 2
+# Raspberry Pi TrailCam Version 1
 #
 # Author: Jean-Claude Graf
 # Date  : 02/01/2017
