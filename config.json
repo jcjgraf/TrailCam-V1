@@ -6,5 +6,5 @@
 	"batteryGPIO": 12,
 
 	"recordingTime": 10,
-	"path": "/media/usb/Videos/"
+	"path": "/home/pi/Documents/TrailCam/TrailCam-V1/Videos/"
 }
