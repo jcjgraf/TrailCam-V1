@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Raspberry Pi TrailCam Version 2
+# Raspberry Pi TrailCam Version 1
 #
 # Author: Jean-Claude Graf
 # Date  : 02/01/2017
@@ -249,7 +249,7 @@ def stopRecording():
     global largestRecordNumber
 
     print("Stop Recording")
-    print("Record saved with the name " + nameOfRecord)
+    print("Record saved with the name " + nameOfRecord + " at " + pathToSave)
 
     GPIO.output(relayGPIO, GPIO.LOW)
 
@@ -260,7 +260,7 @@ def stopRecording():
     largestRecordNumber += 1
 
 
-#-#-#-#-#---Figure the index of the last video out---#-#-#-#-#
+#-#-#-#-#---Figure out the index of the last video ---#-#-#-#-#
 
 for f in os.listdir(pathToSave):
 

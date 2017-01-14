@@ -2,7 +2,7 @@
 #restartScript.sh
 # Stop and restart the trailCam script
 
-read pid < /var/run/trailCamV2b.pid
+read pid < /var/run/trailCamV1.pid
 
 echo "kill process with PID:"
 echo $pid
