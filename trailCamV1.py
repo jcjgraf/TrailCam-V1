@@ -3,7 +3,7 @@
 # Raspberry Pi TrailCam Version 1
 #
 # Author: Jean-Claude Graf
-# Date  : 02/01/2017
+# Date  : 014/01/2017
 
 #-#-#-#-#---Import---#-#-#-#-#
 
@@ -249,7 +249,7 @@ def stopRecording():
     global largestRecordNumber
 
     print("Stop Recording")
-    print("Record saved with the name " + nameOfRecord)
+    print("Record saved with the name " + nameOfRecord + " at " + pathToSave)
 
     GPIO.output(relayGPIO, GPIO.LOW)
 
@@ -260,13 +260,31 @@ def stopRecording():
     largestRecordNumber += 1
 
 
-#-#-#-#-#---Figure the index of the last video out---#-#-#-#-#
+#-#-#-#-#---Stop recording---#-#-#-#-#
+
+def createIndexForName(index):
+
+	indexLength = len(str(index))
+
+	if 4 - indexLength == 3:
+		return "000" + index
+
+	elif 4 - indexLength == 2:
+		return "00" + index
+
+	elif 4 - indexLength == 1:
+		return "0" + index
+
+	else:
+		return index
+
+#-#-#-#-#---Figure out the index of the last video ---#-#-#-#-#
 
 for f in os.listdir(pathToSave):
 
     if f.startswith("Video") == True:
 
-        number = int(f[5:-5])
+        number = int(f[5:-12])
         
         if number > largestRecordNumber:
 
@@ -301,7 +319,9 @@ try:
                 #-Enable the lamp
                 GPIO.output(relayGPIO, GPIO.HIGH)
 
-                nameOfRecord = "Video" + str(largestRecordNumber) + ".h264"
+                indexName = createIndexForName(largestRecordNumber)
+
+                nameOfRecord = "Video" + indexName + "at" + time.strftime('%H'+":"+'%M') +".h264"
                 camera.start_recording(pathToSave + nameOfRecord)
                 
                 
