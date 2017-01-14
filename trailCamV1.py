@@ -89,92 +89,145 @@ isShuttingDown = False
 
 isActive = False
 
+isEnterTime = False
+
+isReadyToSetTime = False
+
 
 #-#-#-#-#---HandleStatusbutton Pressed---#-#-#-#-#
 
 def statusBtnPressed(channel):
 
     global isActive
+    global isEnterTime
+    global isReadyToSetTime
 
     print("Callback called")
 
     index = 0
 
+    changeStatus = 3
+    restartScript = 5
+    enterTime = 7
+    shutdownRPi = 10
+
     # Set index to the seconds pressed
     while GPIO.input(buttonGPIO) == GPIO.HIGH:
 
-        index += 1
+    	index += 1
 
         print("Index is " + str(index))
 
-        if index == 3 or index == 5 or index == 10:
+        if index == changeStatus or index == restartScript or index == enterTime or index == shutdownRPi and isEnterTime == False:
 
-            for _ in range(0,5):
-                time.sleep(0.1)
-                GPIO.output(ledGPIO, GPIO.HIGH)
-                time.sleep(0.1)
-                GPIO.output(ledGPIO, GPIO.LOW)
+	        for _ in range(0,5):
+	            time.sleep(0.1)
+	            GPIO.output(ledGPIO, GPIO.HIGH)
+	            time.sleep(0.1)
+	            GPIO.output(ledGPIO, GPIO.LOW)
 
-        else:
+            if index == enterTime:
+            	isEnterTime = True
+            	isHourSet = False
+            	isMinSet = False
+            	isReadyToSetTime = False
 
-            time.sleep(0.5)
-            GPIO.output(ledGPIO, GPIO.HIGH)
-            time.sleep(0.5)
-            GPIO.output(ledGPIO, GPIO.LOW)
+    	else:
+
+        time.sleep(0.5)
+        GPIO.output(ledGPIO, GPIO.HIGH)
+        time.sleep(0.5)
+        GPIO.output(ledGPIO, GPIO.LOW)
+
 
     # Determinde the output for the chosen time
-    if index == 0 or index == 1 or index == 2:
+    if isEnterTime == False:
+	    if index == 0 or index == 1 or index == 2:
 
-        print("Print status")
+	        print("Print status")
 
-        if isActive == True:
+	        if isActive == True:
 
-            print("isActive is True")
+	            print("isActive is True")
 
-            GPIO.output(ledGPIO, GPIO.HIGH)
-            time.sleep(1.5)
-            GPIO.output(ledGPIO, GPIO.LOW)
+	            GPIO.output(ledGPIO, GPIO.HIGH)
+	            time.sleep(1.5)
+	            GPIO.output(ledGPIO, GPIO.LOW)
 
-        else:
+	        else:
 
-            print("isActive is False")
+	            print("isActive is False")
 
-            for _ in range(0,5):
-                GPIO.output(ledGPIO, GPIO.HIGH)
-                time.sleep(0.1)
-                GPIO.output(ledGPIO, GPIO.LOW)
-                time.sleep(0.1)
+	            for _ in range(0,5):
+	                GPIO.output(ledGPIO, GPIO.HIGH)
+	                time.sleep(0.1)
+	                GPIO.output(ledGPIO, GPIO.LOW)
+	                time.sleep(0.1)
 
-    elif index == 3:
+	    elif index == changeStatus:
 
-        print("Change activ mode")
+	        print("Change activ mode")
 
-        if isActive == True:
+	        if isActive == True:
 
-            isActive = False
+	            isActive = False
 
-            if camera.recording == True:
-                stopRecording() 
+	            if camera.recording == True:
+	                stopRecording() 
 
-            print("isActive is set to False")
-            print("Camera is deactivated")
+	            print("isActive is set to False")
+	            print("Camera is deactivated")
 
-        else:
+	        else:
 
-            isActive = True
+	            isActive = True
 
-            print("isActive is set to True")
-            print("Camera is active now")
+	            print("isActive is set to True")
+	            print("Camera is active now")
 
-    elif index == 5:
+	    elif index == restartScript:
 
-        print("Restart Script")
-        os.system('sh /home/pi/Documents/TrailCam/TrailCam-V1/runRestartScript.sh')
+	        print("Restart Script")
+	        os.system('sh /home/pi/Documents/TrailCam/TrailCam-V1/runRestartScript.sh')
 
+	    elif index == shutdownRPi:
 
-    elif index == 10:
+	        shutDown()
 
-        shutDown()
+  	else:
+  		hourString
+ 		minString
+ 		isHourSet
+ 		isMinSet
+
+        if isReadyToSetTime == True
+
+        	index -= 1
+
+ 			if isHourSet == False:
+
+ 				while index >= 24:
+
+ 					index -= 24
+
+ 				hourString = str(index)
+
+ 			elif isMinSet == False and isHourSet == True:
+
+ 				index * 60
+
+ 				while index >= 60:
+
+ 					index -= 60
+
+ 				minString = str(index)
+
+ 		else:
+ 			isReadyToSetTime = True
+
+ 		if isHourSet == True and isMinSet == True:
+ 			isEnterTime = False
+ 			os.system('sudo date -s "' + hourString + ":" + minString +'"')
 
 GPIO.add_event_detect(buttonGPIO, GPIO.RISING,  callback = statusBtnPressed, bouncetime = 500)
 
