@@ -13,6 +13,22 @@ With help of a press-button and a LED the TrailCam can be "controlled". A quick 
 There is also a switch to cut the power of the battery.
 
 ---
+<<<<<<< HEAD
+=======
+## Images/Video
+
+Here a coupple of Images of my TrailCam
+![Inside of the TrailCam without the battery](img/img1.jpg)
+![Inside of the TrailCam with the battery (but withoug the RPi and NoIR Camera)](img/img2.jpg)
+![The TrailCam from the outside](img/img3.jpg)
+![The controlls of the TrailCam](img/img4.jpg)
+
+And here an example video (I had no luck to capture a decent wildlife video therefore here a video of some goats). It was completely dark when that video was captured.
+[Example Video](https://www.youtube.com/watch?v=FnG7y7HwxYM&feature=youtu.be)
+
+
+---
+>>>>>>> c0a9e18633ac419cc6e9c2924ad0a6845d477ebe
 ## Used Hardware
 - Raspberry Pi 3 B
 - Pi NoIR Camera V2
@@ -24,7 +40,7 @@ There is also a switch to cut the power of the battery.
 - Toolbox as Enclosure
 - USB Thumb Drive (optional)
 - Small Prototype Board
-- Two Resistor
+- Some Resistor
 - Button, Led, Switch, Wires
 
 ## License

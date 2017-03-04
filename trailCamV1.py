@@ -3,7 +3,7 @@
 # Raspberry Pi TrailCam Version 1
 #
 # Author: Jean-Claude Graf
-# Date  : 02/01/2017
+# Date  : 014/01/2017
 
 #-#-#-#-#---Import---#-#-#-#-#
 
@@ -89,16 +89,41 @@ isShuttingDown = False
 
 isActive = False
 
+isPressfuncRunning = False
+
+firstCall = 0
+
+# Change Time Variables
+isEnterTime = False
+isReadyToSetTime = False
+hourString = ""
+minString = ""
+isHourSet = False
+isMinSet = False
+
 
 #-#-#-#-#---HandleStatusbutton Pressed---#-#-#-#-#
 
+
 def statusBtnPressed(channel):
 
+    global isPressfuncRunning
     global isActive
+    global isEnterTime
+    # global isReadyToSetTime
+    # global hourString
+    # global minString
+    # global isHourSet
+    # global isMinSet
 
     print("Callback called")
-
+    
     index = 0
+
+    changeStatus = 3
+    restartScript = 5
+    enterTime = 7
+    shutdownRPi = 10
 
     # Set index to the seconds pressed
     while GPIO.input(buttonGPIO) == GPIO.HIGH:
@@ -107,76 +132,121 @@ def statusBtnPressed(channel):
 
         print("Index is " + str(index))
 
-        if index == 3 or index == 5 or index == 10:
+        if (index == changeStatus or index == restartScript or index == enterTime or index == shutdownRPi) and isEnterTime == False:
 
             for _ in range(0,5):
                 time.sleep(0.1)
                 GPIO.output(ledGPIO, GPIO.HIGH)
                 time.sleep(0.1)
                 GPIO.output(ledGPIO, GPIO.LOW)
+        
+            # if index == enterTime:
+            #     print("Special index called")
+            #     isEnterTime = True
+            #     isHourSet = False
+            #     isMinSet = False
+            #     isReadyToSetTime = False
 
         else:
-
             time.sleep(0.5)
             GPIO.output(ledGPIO, GPIO.HIGH)
             time.sleep(0.5)
             GPIO.output(ledGPIO, GPIO.LOW)
+
 
     # Determinde the output for the chosen time
-    if index == 0 or index == 1 or index == 2:
+    if isEnterTime == False:
+        if index == 0 or index == 1 or index == 2:
 
-        print("Print status")
+            print("Print status")
 
-        if isActive == True:
+            if isActive == True:
 
-            print("isActive is True")
+                print("isActive is True")
 
-            GPIO.output(ledGPIO, GPIO.HIGH)
-            time.sleep(1.5)
-            GPIO.output(ledGPIO, GPIO.LOW)
-
-        else:
-
-            print("isActive is False")
-
-            for _ in range(0,5):
                 GPIO.output(ledGPIO, GPIO.HIGH)
-                time.sleep(0.1)
+                time.sleep(1.5)
                 GPIO.output(ledGPIO, GPIO.LOW)
-                time.sleep(0.1)
 
-    elif index == 3:
+            else:
 
-        print("Change activ mode")
+                print("isActive is False")
 
-        if isActive == True:
+                for _ in range(0,5):
+                    GPIO.output(ledGPIO, GPIO.HIGH)
+                    time.sleep(0.1)
+                    GPIO.output(ledGPIO, GPIO.LOW)
+                    time.sleep(0.1)
 
-            isActive = False
+        elif index == changeStatus:
 
-            if camera.recording == True:
-                stopRecording() 
+            print("Change activ mode")
 
-            print("isActive is set to False")
-            print("Camera is deactivated")
+            if isActive == True:
 
-        else:
+                isActive = False
 
-            isActive = True
+                if camera.recording == True:
+                    stopRecording() 
 
-            print("isActive is set to True")
-            print("Camera is active now")
+                print("isActive is set to False")
+                print("Camera is deactivated")
 
-    elif index == 5:
+            else:
 
-        print("Restart Script")
-        os.system('sh /home/pi/Documents/TrailCam/TrailCam-V1/runRestartScript.sh')
+                isActive = True
 
+                print("isActive is set to True")
+                print("Camera is active now")
 
-    elif index == 10:
+        elif index == restartScript:
 
-        shutDown()
+            print("Restart Script")
+            os.system('sh /home/pi/Documents/TrailCam/TrailCam-V1/runRestartScript.sh')
+
+        elif index == shutdownRPi:
+
+            shutDown()
+
+    # else:
+
+    #     print("Change time")
+    #     print("isReadyToSetTime", isReadyToSetTime)
+
+        # if isReadyToSetTime == True:
+
+        #     index -= 1
+
+        #     if isHourSet == False:
+
+        #         while index >= 24:
+
+        #             index -= 24
+
+        #         hourString = str(index)
+        #         print("Hour set to " + hourString)
+
+        #     elif isMinSet == False and isHourSet == True:
+
+        #         index * 60
+
+        #         while index >= 60:
+
+        #             index -= 60
+
+        #         minString = str(index)
+        #         print("Mib set to " + minString)
+        
+        # else:
+        #     # isReadyToSetTime = True
+        #     print("esle")
+
+        # if isHourSet == True and isMinSet == True:
+        #     isEnterTime = False
+        #     os.system('sudo date -s "' + hourString + ":" + minString +'"')
 
 GPIO.add_event_detect(buttonGPIO, GPIO.RISING,  callback = statusBtnPressed, bouncetime = 500)
+# GPIO.wait_for_edge  (buttonGPIO, GPIO.RISING)
 
 
 # TODO: #-#-#-#-#---Shutdown the pi when the battery is low---#-#-#-#-#
@@ -260,13 +330,32 @@ def stopRecording():
     largestRecordNumber += 1
 
 
+#-#-#-#-#---Stop recording---#-#-#-#-#
+
+def createIndexForName(index):
+
+    indexLength = len(str(index))
+
+    if 4 - indexLength == 3:
+        return "000" + str(index)
+
+    elif 4 - indexLength == 2:
+        return "00" + str(index)
+
+    elif 4 - indexLength == 1:
+        return "0" + str(index)
+
+    else:
+        return str(index)
+
+
 #-#-#-#-#---Figure out the index of the last video ---#-#-#-#-#
 
 for f in os.listdir(pathToSave):
 
     if f.startswith("Video") == True:
 
-        number = int(f[5:-5])
+        number = int(f[5:-12])
         
         if number > largestRecordNumber:
 
@@ -276,6 +365,8 @@ for f in os.listdir(pathToSave):
 #-#-#-#-#---Main loop---#-#-#-#-#
 
 try:
+
+    print("Ready")
 
     for _ in range(0,5):
         GPIO.output(ledGPIO, GPIO.HIGH)
@@ -301,7 +392,9 @@ try:
                 #-Enable the lamp
                 GPIO.output(relayGPIO, GPIO.HIGH)
 
-                nameOfRecord = "Video" + str(largestRecordNumber) + ".h264"
+                indexName = createIndexForName(largestRecordNumber)
+
+                nameOfRecord = time.strftime('%d'+"."+'%m'+"."+'%y'+"_"+'%H'+":"+'%M') +".h264"
                 camera.start_recording(pathToSave + nameOfRecord)
                 
                 
