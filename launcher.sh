@@ -10,3 +10,6 @@ cd home/pi/Documents/TrailCam/TrailCam-V1/
 sudo python trailCamV1.py &
 echo $! > /var/run/trailCamV1.pid
 cd /
+
+# Disable WIFI
+ifconfig wlan0 down
