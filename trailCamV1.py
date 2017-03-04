@@ -3,7 +3,7 @@
 # Raspberry Pi TrailCam Version 1
 #
 # Author: Jean-Claude Graf
-# Date  : 014/01/2017
+# Date  : 04/03/2017
 
 #-#-#-#-#---Import---#-#-#-#-#
 
@@ -44,6 +44,9 @@ camera.zoom = (0.0, 0.0, 1.0, 1.0)
 #frame, resolution, timestamp
 camera.video_denoise = True
 camera.led = False
+
+camera.annotate_background = picamera.Color('black')
+camera.annotate_text = time.strftime('%Y-%m-%d %H:%M:%S')
 
 
 #-#-#-#-#---Setup GPIO---#-#-#-#-#
@@ -394,7 +397,7 @@ try:
 
                 indexName = createIndexForName(largestRecordNumber)
 
-                nameOfRecord = time.strftime('%d'+"."+'%m'+"."+'%y'+"_"+'%H'+":"+'%M') +".h264"
+                nameOfRecord = time.strftime('%Y-%m-%d_%H:%M:%S') +".h264"
                 camera.start_recording(pathToSave + nameOfRecord)
                 
                 
