@@ -13,8 +13,6 @@ With help of a press-button and a LED the TrailCam can be "controlled". A quick 
 There is also a switch to cut the power of the battery.
 
 ---
-<<<<<<< HEAD
-=======
 ## Images/Video
 
 Here a coupple of Images of my TrailCam
@@ -28,7 +26,6 @@ And here an example video (I had no luck to capture a decent wildlife video ther
 
 
 ---
->>>>>>> c0a9e18633ac419cc6e9c2924ad0a6845d477ebe
 ## Used Hardware
 - Raspberry Pi 3 B
 - Pi NoIR Camera V2
