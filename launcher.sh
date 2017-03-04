@@ -11,5 +11,8 @@ sudo python trailCamV1.py &
 echo $! > /var/run/trailCamV1.pid
 cd /
 
-# Disable WIFI
-ifconfig wlan0 down
+# Turn off the HDMI port
+sudo /opt/vc/bin/tvservice -o
+
+# Turn it back on with:
+# sudo /opt/vc/bin/tvservice -p
