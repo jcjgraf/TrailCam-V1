@@ -46,7 +46,7 @@ camera.video_denoise = True
 camera.led = False
 
 camera.annotate_background = picamera.Color('black')
-camera.annotate_text = time.strftime('%Y-%m-%d %H:%M:%S')
+# camera.annotate_text = time.strftime('%Y-%m-%d %H:%M:%S')
 
 
 #-#-#-#-#---Setup GPIO---#-#-#-#-#
@@ -396,6 +396,8 @@ try:
                 GPIO.output(relayGPIO, GPIO.HIGH)
 
                 indexName = createIndexForName(largestRecordNumber)
+
+                camera.annotate_text = time.strftime('%Y-%m-%d %H:%M:%S')
 
                 nameOfRecord = time.strftime('%Y-%m-%d_%H:%M:%S') +".h264"
                 camera.start_recording(pathToSave + nameOfRecord)
